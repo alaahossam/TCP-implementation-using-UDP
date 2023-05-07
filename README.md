@@ -1,18 +1,25 @@
 # TCP-implementation-using-UDP
 
 Ahmed Hassan Falah 6737
+
 Alaa Hossam Abu-hashima 6750
+
 Kyrillos Gayed Ishak 6804
 
 Project overview:
 It is required to implement TCP over UDP connection to be able to make UDP reliable to send TCP packets over it such as HTTP which uses TCP protocol. So as known UDP is connectionless and not reliable so we may suffer from data loss and corruption. Now we need to implement:
 
-1- Three-way handshaking.
-2- Error detection algorithm (here we implement checksum).
-3- Method to detect packet corruption.
-4- Method to retransmit the lost or corrupted packets. (stop-and-wait algorithm)
-5- Method to detect duplicate packets and ignore resending them.
-6- HTTP server on top of the implemented TCP using UCP.
+  1- Three-way handshaking.
+  
+  2- Error detection algorithm (here we implement checksum).
+
+  3- Method to detect packet corruption.
+
+  4- Method to retransmit the lost or corrupted packets. (stop-and-wait algorithm)
+
+  5- Method to detect duplicate packets and ignore resending them.
+
+  6- HTTP server on top of the implemented TCP using UCP.
 
 Problems we face:
 
