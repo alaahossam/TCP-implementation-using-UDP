@@ -2,43 +2,67 @@
 
 ### Contributors:
 Ahmed Hassan Falah 6737
+
 Alaa Hossam Abu-hashima 6750
+
 Kyrillos Gayed Ishak 6804
 ### Project overview:
 It is required to implement TCP over UDP connection to be able to make UDP reliable to send TCP packets over it such as HTTP which uses TCP protocol. So as known UDP is connectionless and not reliable so we may suffer from data loss and corruption. Now we need to implement:
+
 1- Three-way handshaking.
+
 2- Error detection algorithm (here we implement checksum).
+
 3- Method to detect packet corruption.
-4- Method to retransmit the lost or corrupted packets. (stop-and-wait algorithm)
+
+4- Method to retransmit the lost or corrupted packets. (stop-and-wait algorithm).
+
 5- Method to detect duplicate packets and ignore resending them.
+
 6- HTTP server on top of the implemented TCP using UCP.
-Problems we face:
+
+### Problems we face:
 We had a problem in stop-and-wait usage since there is a probability of deadlock occurrence but it occurs rarely when we use localhost server connection.
 ### Assumptions:
 We assume that we need to implement TCP over UDP so we implement some functions to make UDP reliable.
 We assume we needn’t to implement congestion control method.
 ### Explanation:
 1) Firstly, we need start implementing the connection using sockets:
-▪ Creating a socket from built-in socket library: socket (AF_INET, SOCK_DGRAM)
+  ▪ Creating a socket from built-in socket library: socket (AF_INET, SOCK_DGRAM)
 AF_INET: using for IP Address family.
 SOCK_DGRAM: datagram service for UDP.
-▪ Identifying a socket; in other words, we need to assign a transport address to the socket. Using system call bind.
-▪ Waiting for incoming connection by implementing function called listen() to check for connections all the time.
-▪ Sending and receiving data with functions send() and receive()
-▪ Dividing data into packets with implementing functions:
+
+  ▪ Identifying a socket; in other words, we need to assign a transport address to the socket. Using system call bind.
+  
+  ▪ Waiting for incoming connection by implementing function called listen() to check for connections all the time.
+
+  ▪ Sending and receiving data with functions send() and receive()
+  
+  ▪ Dividing data into packets with implementing functions:
+
 breakPackets(): split the packet information to be used into data, sequence number, acknowledge number, checksum, packet type, length and ID.
+
 createPacket(): creating single packet with information consists of all info resulted from breakPackets() function concatenated together.
+
 listPackets(): to list the chunks of data into list and send them in their order.
+
 2) Now we need to make functions for error detection so we implement two functions:
 The first function is: calculatechecksum() for calculating the checksum of the packet given some info
 The second function is: validateChecksum() to compare the calculated checksum with the given checksum and if they are no equal, then there is an error detected. Else, there is no error detected.
+
 3) Simulate packet loss and packet corruption with function packetcorruption() by randomly changing one byte in the packet with a certain probability and packet loss with function packetloss() by discarding the packet with a certain probability.
+
 4) Check packet loss or corruption by cekPacket() function which checks whether the reply id in the server side is equivalent to packet id in the client or not , calculated checksum equals the given checksum or not and checks the reply type and packet type.
+
 5) Send The packets from sender to receiver with checking the validation of the data packets transmitted.
+
 6) Now we concern in how to use HTTP server in our implementation; we write the HTTP header in a file then:
 ▪ open this file and read data written in it.
+
 ▪ Parsing this header into request method (GET or POST), URL, payload and http version.
+
 ▪ Check the request method if it is GET, then the server will be sender and client will be receiver. If it is POST, then the client will be as a sender and server will be as a receiver.
+
 ▪ Check the URL if it is valid, create another output file and write “200 OK”.
 If it is not valid, write “404 NOT FOUND” in the output file.
 This code is a Python class called ReliableUDP that implements a simple version of the User Datagram Protocol (UDP) that guarantees reliable delivery of data packets between two endpoints over an unreliable network. The class defines several methods that are responsible for various aspects of packet creation, transmission, and reception, as well as error checking and correction.
